@@ -1,0 +1,5 @@
+package kr.ac.kopo.project_pas.characterdata.engineerData;
+
+public class EngineerItemSet {
+    // TODO: {class_name} 구현 예정
+}
