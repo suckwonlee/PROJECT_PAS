@@ -97,8 +97,8 @@ public class RuneEffectApplier {
                 flavorText = "서대륙의 야만전사들이 싸움에 임하는 자세는 모든 전사가 본받을 내용이네. 그들은 지진이 일어나도 흔들리지 않지";
                 break;
             case "태산의 룬":
-                player.increaseHp(level * 10);
-                flavorText = "태산은 어떤 재난이 닥쳐도 그곳에 서있기에 태산이다.";
+                player.increaseHp(level * 20);
+                flavorText = "폭우가 대지를 잠기게 하더라도, 업화가 초목을 태우더라도, 태산은 그 자리에 우뚝 서있다. 그렇기에 태산이다.";
                 break;
             case "살의의 룬":
                 player.increaseCrit(0.03 * level);
