@@ -24,8 +24,8 @@
             </intent-filter>
         </activity>
 
-<!--        <activity android:name=".ui.CharacterSelectionActivity" />-->
-<!--        <activity android:name=".ui.ContinentSelectionActivity" />-->
+        <activity android:name=".ui.CharacterSelectionActivity" />
+        <activity android:name=".ui.ContinentSelectionActivity" />
 
     </application>
 </manifest>

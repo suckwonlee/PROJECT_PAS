@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/black">
+    android:orientation="vertical"
+    android:background="@color/black"
+    android:padding="16dp">
 
-    <!-- 상단 네비게이션 -->
+    <!-- 상단 네비게이션 (좌우 화살표 + 대륙 이름) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center_vertical"
-        android:padding="16dp">
+        android:layout_marginBottom="12dp">
 
         <ImageButton
             android:id="@+id/arrow_left"
@@ -24,7 +26,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="대륙이름"
+            android:text="대륙 이름"
             android:textColor="@android:color/white"
             android:textSize="20sp"
             android:gravity="center" />
@@ -37,35 +39,50 @@
             android:src="@drawable/ic_arrow_right" />
     </LinearLayout>
 
-    <!-- 중간 설명 영역: 높이를 wrap_content 로 변경 -->
-    <FrameLayout
-        android:id="@+id/continent_description_container"
+    <!-- 이미지 + 설명 함께 묶음 -->
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="72dp"
-        android:padding="16dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/description_text"
+        <ImageView
+            android:id="@+id/continent_image"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="설명: 대륙의 세계관 설명이 들어갑니다."
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-    </FrameLayout>
+            android:layout_height="350dp"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:layout_marginBottom="12dp"
+            android:src="@drawable/placeholder_rune1"
+            />
 
-    <!-- 화면 맨 아래 여백에 위치하는 “다음” 버튼 -->
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:fillViewport="true">
+
+            <TextView
+                android:layout_marginTop="20dp"
+                android:id="@+id/description_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="대륙 설명이 여기에 들어갑니다."
+                android:textColor="@android:color/white"
+                android:textSize="15sp"
+                android:lineSpacingExtra="4dp" />
+        </ScrollView>
+    </LinearLayout>
+
+    <!-- 다음 버튼 -->
     <Button
         android:id="@+id/btn_next_center"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal"
-        android:layout_marginBottom="24dp"
         android:text="다음"
         android:textAllCaps="false"
         android:background="@drawable/bg_btn_start"
         android:textColor="@android:color/white"
         android:textSize="18sp"
-        android:gravity="center" />
-
-</FrameLayout>
+        android:layout_marginTop="8dp" />
+</LinearLayout>

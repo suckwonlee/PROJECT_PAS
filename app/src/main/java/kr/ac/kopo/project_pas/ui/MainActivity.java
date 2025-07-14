@@ -15,7 +15,7 @@ public class MainActivity extends Activity {
 
         View touchArea = findViewById(R.id.main);
         touchArea.setOnClickListener(v -> {
-            Intent intent = new Intent(MainActivity.this, CharacterSelectionActivity.class); // ✅ 이게 맞음
+            Intent intent = new Intent(MainActivity.this, ContinentSelectionActivity.class); // ✅ 이게 맞음
 
             startActivity(intent);
         });

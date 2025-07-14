@@ -15,7 +15,7 @@ public class RuneEffectApplier {
                 break;
             case "혹한의 룬":
                 passiveName = "중갑";
-                flavorText = "북대륙에서 살아남은 전사들은 갑옷이 필요하지 않다네. 그들의 육신이 어떤 갑옷보다도 더 단단했지.";
+                flavorText = "동대륙에서 혹한에서 살아남은 전사들은 갑옷이 필요하지 않다네. 그들의 육신이 어떤 갑옷보다도 더 단단했지.";
                 break;
             case "수호자의 룬":
                 passiveName = "의지";
@@ -31,7 +31,7 @@ public class RuneEffectApplier {
                 break;
             case "혈귀의 룬":
                 passiveName = "흡혈";
-                flavorText = "인간답지 않다? 바로 보았군. 그는 흡혈귀 혼혈이라네";
+                flavorText = "인간답지 않다? 눈썰미가 좋군. 그자는 흡혈귀의 혼혈이라네.";
                 break;
             case "필생의 룬":
                 passiveName = "생존";
@@ -94,7 +94,7 @@ public class RuneEffectApplier {
                 break;
             case "부동의 룬":
                 player.increaseDef(level);
-                flavorText = "서대륙의 야만전사들이 싸움에 임하는 자세는 모든 전사가 본받을 내용이네. 그들은 지진이 일어나도 흔들리지 않지";
+                flavorText = "서대륙의 야만전사들이 싸움에 임하는 자세는 모든 투사가 본받을 내용이네. 그들은 지진이 일어나도 흔들리지 않지";
                 break;
             case "태산의 룬":
                 player.increaseHp(level * 10);
