@@ -1,39 +1,68 @@
 package kr.ac.kopo.project_pas.enemydata;
 
-public class EnemyDefinition {
+import kr.ac.kopo.project_pas.character.CombatUnit;
+import kr.ac.kopo.project_pas.tag.TagInstance;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class EnemyDefinition implements CombatUnit {
     private String name;
     private int hp;
     private boolean poisoned;
+    private List<TagInstance> tags;
 
     public EnemyDefinition(String name, int hp) {
         this.name = name;
         this.hp = hp;
         this.poisoned = false;
+        this.tags = new ArrayList<>();
     }
 
     public void applyPoison(int amount) {
         this.poisoned = true;
-        System.out.println(name + " 에게 중독 " + amount + " 적용됨");
     }
 
     public void takeFireDamage(int amount) {
         this.hp -= amount;
-        System.out.println(name + " 이 " + amount + "의 화염 피해를 입음");
     }
 
     public void reduceHp(int amount) {
         this.hp -= amount;
-        System.out.println(name + " 이 " + amount + "의 피해를 입음");
     }
 
     public boolean isDead() {
         return this.hp <= 0;
     }
 
+    public void addTag(TagInstance tag) {
+        tags.add(tag);
+    }
+
+    public List<TagInstance> getTags() {
+        return tags;
+    }
+
+    public void removeExpiredTags() {
+        tags.removeIf(TagInstance::isExpired);
+    }
+
+    @Override
+    public void takeDamage(int amount) {
+        reduceHp(amount);
+    }
+
+    @Override
+    public void heal(int amount) {
+        this.hp += amount;
+    }
+
+    @Override
     public String getName() {
         return name;
     }
 
+    @Override
     public int getHp() {
         return hp;
     }

@@ -3,15 +3,17 @@ package kr.ac.kopo.project_pas.character;
 import java.util.ArrayList;
 import java.util.List;
 import kr.ac.kopo.project_pas.publicdata.PassiveSkill;
+import kr.ac.kopo.project_pas.tag.TagInstance;
 
-public class PlayerCharacter {
+public class PlayerCharacter implements CombatUnit {
     private int hp;
     private int atk;
     private int def;
     private double crit;
-    private double evasion; // ⬅️ 회피율 추가
+    private double evasion;
     private String name;
     private List<PassiveSkill> passives;
+    private List<TagInstance> tags;
 
     public PlayerCharacter(String name, int hp, int atk, int def, double crit, double evasion) {
         this.name = name;
@@ -21,6 +23,7 @@ public class PlayerCharacter {
         this.crit = crit;
         this.evasion = evasion;
         this.passives = new ArrayList<>();
+        this.tags = new ArrayList<>();
     }
 
     public void addPassive(PassiveSkill passive) {
@@ -43,63 +46,44 @@ public class PlayerCharacter {
         hp += amount;
     }
 
-    public int getHp() {
-        return hp;
-    }
-
-    public void setHp(int hp) {
-        this.hp = hp;
-    }
-
-    public int getAtk() {
-        return atk;
-    }
-
-    public void setAtk(int atk) {
-        this.atk = atk;
-    }
-
-    public double getCrit() {
-        return crit;
-    }
-
-    public void setCrit(double crit) {
-        this.crit = crit;
-    }
-
-    public int getDef() {
-        return def;
-    }
-
-    public void setDef(int def) {
-        this.def = def;
-    }
-
-    public double getEvasion() {
-        return evasion;
-    }
-
-    public void setEvasion(double evasion) {
-        this.evasion = evasion;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setPassives(List<PassiveSkill> passives) {
-        this.passives = passives;
-    }
-
     public void increaseCrit(double amount) {
         crit += amount;
     }
 
     public void increaseEvasion(double amount) {
         evasion += amount;
+    }
+
+    public void addTag(TagInstance tag) {
+        tags.add(tag);
+    }
+
+    public List<TagInstance> getTags() {
+        return tags;
+    }
+
+    public void removeExpiredTags() {
+        tags.removeIf(TagInstance::isExpired);
+    }
+
+    @Override
+    public void takeDamage(int amount) {
+        hp -= amount;
+        if (hp < 0) hp = 0;
+    }
+
+    @Override
+    public void heal(int amount) {
+        hp += amount;
+    }
+
+    @Override
+    public int getHp() {
+        return hp;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 }
