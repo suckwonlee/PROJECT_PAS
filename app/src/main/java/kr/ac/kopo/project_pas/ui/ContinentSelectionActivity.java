@@ -51,18 +51,15 @@ public class ContinentSelectionActivity extends AppCompatActivity {
         btnNext = findViewById(R.id.btn_next_center);
 
         btnLeft.setOnClickListener(v -> {
-            if (currentIndex > 0) {
-                currentIndex--;
-                updateUI();
-            }
+            currentIndex = (currentIndex - 1 + continentNames.length) % continentNames.length;
+            updateUI();
         });
 
         btnRight.setOnClickListener(v -> {
-            if (currentIndex < continentNames.length - 1) {
-                currentIndex++;
-                updateUI();
-            }
+            currentIndex = (currentIndex + 1) % continentNames.length;
+            updateUI();
         });
+
 
         btnNext.setOnClickListener(v -> {
             // TODO: 선택된 대륙 정보를 다음 액티비티에 전달
