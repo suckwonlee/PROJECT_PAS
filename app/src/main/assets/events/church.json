@@ -1,0 +1,39 @@
+{
+  "id": "church",
+  "description": "어느 교단이 치유 목적으로 선교를 나왔다. 하지만 줄이 너무 길어서 치유를 받을 수 없을 것 같다.",
+  "choices": [
+    {
+      "index": 1,
+      "text": "저들의 물자를 훔친다.",
+      "resultText": "당신은 틈을 노려 배급 물자를 훔쳐냈다.",
+      "outcome": "GOLD_REWARD"
+    },
+    {
+      "index": 2,
+      "text": "사람들을 통제하는 걸 돕는다.",
+      "resultText": "사람들은 당신의 도움으로 질서를 되찾았다.",
+      "outcome": "SKILL_REWARD"
+    },
+    {
+      "index": 3,
+      "characterId": "성직자",
+      "text": "당신의 힘은 교단의 방식이 아니예요.",
+      "resultText": "당신은 기묘한 교단원의 힘에 의문을 품고, 결투를 요청했다.",
+      "outcome": "START_BATTLE"
+    },
+    {
+      "index": 3,
+      "characterId": "마법사",
+      "text": "저게 교단이라고? 그럼 나도 정식 학도겠는데?",
+      "resultText": "당신은 비웃듯 나서며 마력을 과시했다.",
+      "outcome": "START_BATTLE"
+    },
+    {
+      "index": 3,
+      "characterId": "이계종",
+      "text": "사칭은 나쁜 거란다. 나의 아이들아.",
+      "resultText": "교단원은 당신 앞에 무릎을 꿇었다. 치유의 마력이 퍼진다.",
+      "outcome": "RECOVERY_AND_SKILL_REWARD"
+    }
+  ]
+}
