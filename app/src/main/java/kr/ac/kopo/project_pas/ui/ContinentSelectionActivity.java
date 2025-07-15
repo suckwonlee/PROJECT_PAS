@@ -62,10 +62,10 @@ public class ContinentSelectionActivity extends AppCompatActivity {
 
 
         btnNext.setOnClickListener(v -> {
-            // TODO: 선택된 대륙 정보를 다음 액티비티에 전달
-            // 예시: Intent intent = new Intent(this, ChapterActivity.class);
-            // intent.putExtra("selected_continent", continentNames[currentIndex]);
-            // startActivity(intent);
+            Intent intent = new Intent(this, CharacterSelectionActivity.class);
+            intent.putExtra("continentId", continentNames[currentIndex]);
+            startActivity(intent);
+            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
         });
 
         updateUI();
