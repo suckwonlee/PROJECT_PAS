@@ -7,10 +7,9 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import kr.ac.kopo.project_pas.R;
 
-public class ContinentSelectionActivity extends AppCompatActivity {
+public class ContinentSelectionActivity extends BaseActivity {
 
     private String[] continentNames = {"남대륙", "동대륙", "서대륙", "북대륙", "중앙대륙"};
     private String[] continentDescriptions = {
@@ -59,7 +58,6 @@ public class ContinentSelectionActivity extends AppCompatActivity {
             currentIndex = (currentIndex + 1) % continentNames.length;
             updateUI();
         });
-
 
         btnNext.setOnClickListener(v -> {
             Intent intent = new Intent(this, CharacterSelectionActivity.class);

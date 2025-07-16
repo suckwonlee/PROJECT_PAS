@@ -1,4 +1,3 @@
-// CharacterSelectionActivity.java
 package kr.ac.kopo.project_pas.ui;
 
 import android.graphics.PorterDuff;
@@ -49,11 +48,13 @@ public class CharacterSelectionActivity extends AppCompatActivity {
             SaveConverter.ID.Character.CLERIC,
             SaveConverter.ID.Character.WIZARD,
             SaveConverter.ID.Character.DRUID,
-            SaveConverter.ID.Character.EXOTIC,
+            // 여섯번째 슬롯: 기술자(Engineer)
+            SaveConverter.ID.Character.ENGINEER,
+            // 일곱번째 슬롯: 음유시인(Bard)
             SaveConverter.ID.Character.BARD,
-            SaveConverter.ID.Character.ENGINEER
+            // 마지막 슬롯: 이계종(Exotic)
+            SaveConverter.ID.Character.EXOTIC
     };
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,15 +71,20 @@ public class CharacterSelectionActivity extends AppCompatActivity {
         infoPanel.setVisibility(View.GONE);
     }
 
+    // 뒤로(취소) 버튼 누르면 대륙 선택 창으로 돌아가기
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
     private void initSlots() {
         for (int i = 0; i < iconViewIds.length; i++) {
             ImageView iconView = findViewById(iconViewIds[i]);
             String charId = characterIds[i];
 
             iconView.setImageResource(getIconResId(charId));
-
             boolean unlocked = saveManager.isCharacterUnlocked(charId)
-                    || charId.equals(SaveConverter.ID.Character.HERO);
+                    || SaveConverter.ID.Character.HERO.equals(charId);
             if (!unlocked) {
                 iconView.setColorFilter(new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY));
             } else {
@@ -98,7 +104,7 @@ public class CharacterSelectionActivity extends AppCompatActivity {
         String name;
         String description;
 
-        if (charId.equals(SaveConverter.ID.Character.HERO)) {
+        if (SaveConverter.ID.Character.HERO.equals(charId)) {
             HeroCandidateData data = new HeroCandidateData();
             name = data.getName();
             description = data.getDescription();
@@ -127,11 +133,9 @@ public class CharacterSelectionActivity extends AppCompatActivity {
                     break;
                 default:
                     name = "개발중";
-                    break;
             }
             description = "아직 개발 중인 캐릭터입니다.";
         }
-
         portrait.setImageResource(getIconResId(charId));
         detailPrompt.setText(name);
         detailPlaceholder.setText(description);
@@ -148,11 +152,13 @@ public class CharacterSelectionActivity extends AppCompatActivity {
             case SaveConverter.ID.Character.DRUID:
                 return R.drawable.druid;
             case SaveConverter.ID.Character.ENGINEER:
-                return R.drawable.exotic;
+                // 기술자 아이콘 매핑 수정
+                return R.drawable.artificer;
             case SaveConverter.ID.Character.HUNTER:
                 return R.drawable.hunter;
             case SaveConverter.ID.Character.EXOTIC:
-                return R.drawable.artificer;
+                // 이계종 아이콘 매핑 수정
+                return R.drawable.exotic;
             case SaveConverter.ID.Character.WIZARD:
                 return R.drawable.wizard;
             default:
