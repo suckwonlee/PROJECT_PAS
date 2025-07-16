@@ -1,4 +1,4 @@
-package kr.ac.kopo.project_pas.characterdata.herodata;
+package kr.ac.kopo.project_pas.characterdata.heroData;
 
 import kr.ac.kopo.project_pas.characterdata.IPlayerData;
 

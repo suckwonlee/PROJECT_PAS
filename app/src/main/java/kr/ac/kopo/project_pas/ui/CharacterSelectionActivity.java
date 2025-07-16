@@ -5,13 +5,14 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import kr.ac.kopo.project_pas.R;
-import kr.ac.kopo.project_pas.characterdata.herodata.HeroCandidateData;
+import kr.ac.kopo.project_pas.characterdata.heroData.HeroCandidateData;
 import kr.ac.kopo.project_pas.save.SaveConverter;
 import kr.ac.kopo.project_pas.save.SaveManager;
 
@@ -21,17 +22,11 @@ public class CharacterSelectionActivity extends AppCompatActivity {
     private ImageView portrait;
     private TextView detailPrompt;
     private TextView detailPlaceholder;
+    private ImageButton btnAttackSkill;
+    private ImageButton btnDefenseSkill;
+    private ImageButton btnRune1;
+    private ImageButton btnRune2;
 
-    private final int[] containerIds = {
-            R.id.char1_container,
-            R.id.char2_container,
-            R.id.char3_container,
-            R.id.char4_container,
-            R.id.char5_container,
-            R.id.char6_container,
-            R.id.char7_container,
-            R.id.char8_container
-    };
     private final int[] iconViewIds = {
             R.id.char1,
             R.id.char2,
@@ -48,11 +43,8 @@ public class CharacterSelectionActivity extends AppCompatActivity {
             SaveConverter.ID.Character.CLERIC,
             SaveConverter.ID.Character.WIZARD,
             SaveConverter.ID.Character.DRUID,
-            // 여섯번째 슬롯: 기술자(Engineer)
             SaveConverter.ID.Character.ENGINEER,
-            // 일곱번째 슬롯: 음유시인(Bard)
             SaveConverter.ID.Character.BARD,
-            // 마지막 슬롯: 이계종(Exotic)
             SaveConverter.ID.Character.EXOTIC
     };
 
@@ -67,11 +59,21 @@ public class CharacterSelectionActivity extends AppCompatActivity {
         detailPrompt = findViewById(R.id.detail_prompt);
         detailPlaceholder = findViewById(R.id.detail_placeholder);
 
+        // 정보 패널 하단 스킬 및 룬 버튼 초기화
+        btnAttackSkill  = findViewById(R.id.btn_attack_skill);
+        btnDefenseSkill = findViewById(R.id.btn_defense_skill);
+        btnRune1        = findViewById(R.id.btn_rune1);
+        btnRune2        = findViewById(R.id.btn_rune2);
+        // 초기 비활성화
+        btnAttackSkill.setEnabled(false);
+        btnDefenseSkill.setEnabled(false);
+        btnRune1.setEnabled(false);
+        btnRune2.setEnabled(false);
+
         initSlots();
         infoPanel.setVisibility(View.GONE);
     }
 
-    // 뒤로(취소) 버튼 누르면 대륙 선택 창으로 돌아가기
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -86,7 +88,8 @@ public class CharacterSelectionActivity extends AppCompatActivity {
             boolean unlocked = saveManager.isCharacterUnlocked(charId)
                     || SaveConverter.ID.Character.HERO.equals(charId);
             if (!unlocked) {
-                iconView.setColorFilter(new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY));
+                iconView.setColorFilter(
+                        new PorterDuffColorFilter(Color.GRAY, PorterDuff.Mode.MULTIPLY));
             } else {
                 iconView.clearColorFilter();
             }
@@ -139,30 +142,34 @@ public class CharacterSelectionActivity extends AppCompatActivity {
         portrait.setImageResource(getIconResId(charId));
         detailPrompt.setText(name);
         detailPlaceholder.setText(description);
+
+        // 선택 시 스킬 및 룬 버튼 활성화
+        btnAttackSkill .setEnabled(true);
+        btnDefenseSkill.setEnabled(true);
+        btnRune1       .setEnabled(true);
+        btnRune2       .setEnabled(true);
     }
 
     private int getIconResId(String characterId) {
         switch (characterId) {
             case SaveConverter.ID.Character.HERO:
                 return R.drawable.hero;
-            case SaveConverter.ID.Character.BARD:
-                return R.drawable.bard;
+            case SaveConverter.ID.Character.HUNTER:
+                return R.drawable.hunter;
             case SaveConverter.ID.Character.CLERIC:
                 return R.drawable.priest;
+            case SaveConverter.ID.Character.WIZARD:
+                return R.drawable.wizard;
             case SaveConverter.ID.Character.DRUID:
                 return R.drawable.druid;
             case SaveConverter.ID.Character.ENGINEER:
-                // 기술자 아이콘 매핑 수정
                 return R.drawable.artificer;
-            case SaveConverter.ID.Character.HUNTER:
-                return R.drawable.hunter;
+            case SaveConverter.ID.Character.BARD:
+                return R.drawable.bard;
             case SaveConverter.ID.Character.EXOTIC:
-                // 이계종 아이콘 매핑 수정
                 return R.drawable.exotic;
-            case SaveConverter.ID.Character.WIZARD:
-                return R.drawable.wizard;
             default:
-                return R.drawable.icon12;
+                return R.drawable.hero;
         }
     }
 }
