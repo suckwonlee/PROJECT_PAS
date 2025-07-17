@@ -60,13 +60,19 @@ public class ContinentSelectionActivity extends BaseActivity {
         });
 
         btnNext.setOnClickListener(v -> {
-            Intent intent = new Intent(this, CharacterSelectionActivity.class);
-            intent.putExtra("continentId", continentNames[currentIndex]);
-            startActivity(intent);
-            overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-        });
+            String selectedContinent = tvContinentName.getText().toString();
+            if (!selectedContinent.equals("남대륙")) {
+                android.app.AlertDialog.Builder builder = new android.app.AlertDialog.Builder(this);
+                builder.setTitle("개발 중");
+                builder.setMessage("해당 대륙은 아직 개발 중입니다.");
+                builder.setPositiveButton("확인", null);
+                builder.show();
+                return;
+            }
 
-        updateUI();
+            // 남대륙 선택 시만 다음 액티비티로 진행
+            startActivity(new Intent(this, CharacterSelectionActivity.class));
+        });
     }
 
     private void updateUI() {

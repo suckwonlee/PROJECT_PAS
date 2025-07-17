@@ -28,12 +28,73 @@ public class HeroCandidateSkillSet {
             this.usageLimit = usageLimit;
         }
 
-        public String getId() { return id; }
-        public String getName() { return name; }
-        public String getFlavorText() { return flavorText; }
-        public int getIconRes() { return iconRes; }
+        public String getId()           { return id; }
+        public String getName()         { return name; }
+        public String getFlavorText()   { return flavorText; }
+        public int getIconRes()         { return iconRes; }
         public int[] getPowerPerLevel() { return powerPerLevel; }
-        public int getUsageLimit() { return usageLimit; }
+        public int getUsageLimit()      { return usageLimit; }
+
+        /**
+         * 각 스킬별 효과 설명을 반환합니다.
+         */
+        public String getEffectDescription() {
+            switch (id) {
+                case "HERO_ATK_1": {
+                    int basePct   = powerPerLevel[0];
+                    int growthPct = powerPerLevel[1] - powerPerLevel[0];
+                    return String.format(
+                            "공격력의 %d%%만큼의 피해를 입힙니다. (성장치 %d%%)",
+                            basePct, growthPct
+                    );
+                }
+                case "HERO_ATK_2": {
+                    int baseDef   = powerPerLevel[0];
+                    int growthDef = powerPerLevel[1] - powerPerLevel[0];
+                    return String.format(
+                            "방어력 %d만큼 방어합니다. (성장치 %d)",
+                            baseDef, growthDef
+                    );
+                }
+                case "HERO_ATK_3": {
+                    int basePct   = powerPerLevel[0];
+                    int growthPct = powerPerLevel[1] - powerPerLevel[0];
+                    return String.format(
+                            "공격력의 %d%%만큼의 피해와 화염을 줍니다. (성장치 %d%%)",
+                            basePct, growthPct
+                    );
+                }
+                case "HERO_DEF_1":
+                    return String.format("방어력 %d만큼 방어", powerPerLevel[0]);
+                case "HERO_DEF_2": {
+                    int basePct   = powerPerLevel[0];
+                    int growthPct = powerPerLevel[1] - powerPerLevel[0];
+                    return String.format(
+                            "공격력의 %d%%만큼의 피해를 입힙니다. (성장치 %d%%)",
+                            basePct, growthPct
+                    );
+                }
+                case "HERO_DEF_3": {
+                    int plate = powerPerLevel[0];
+                    return String.format(
+                            "중갑%d, 의지1, 저지불가1 (사용횟수 %d회)",
+                            plate, usageLimit
+                    );
+                }
+                default:
+                    if (usageLimit > 0) {
+                        return String.format(
+                                "%d 효과 (사용횟수 %d회)",
+                                powerPerLevel[0], usageLimit
+                        );
+                    } else {
+                        return String.format(
+                                "%d 효과",
+                                powerPerLevel[0]
+                        );
+                    }
+            }
+        }
     }
 
     // 공격 스킬 정의 (6단계)
@@ -108,35 +169,24 @@ public class HeroCandidateSkillSet {
         return INSTANCE;
     }
 
-    /**
-     * 공격 스킬 정의 리스트 반환
-     */
+    /** 스킬 정의 리스트 반환 */
     public List<SkillDefinition> getAttackSkills() {
         return ATTACK_SKILLS;
     }
 
-    /**
-     * 방어 스킬 정의 리스트 반환
-     */
     public List<SkillDefinition> getDefenseSkills() {
         return DEFENSE_SKILLS;
     }
 
-    // 선택된 스킬 상태 접근자/설정자
-    public String getSelectedAttackId() { return selectedAttackId; }
-    public int getSelectedAttackLevel() { return selectedAttackLevel; }
+    // 선택 상태 접근자/설정자
     public void setSelectedAttack(String id, int level) {
         this.selectedAttackId = id;
         this.selectedAttackLevel = level;
     }
 
-    public String getSelectedDefenseId() { return selectedDefenseId; }
-    public int getSelectedDefenseLevel() { return selectedDefenseLevel; }
-    public int getDefenseUsesLeft() { return defenseUsesLeft; }
     public void setSelectedDefense(String id, int level) {
         this.selectedDefenseId = id;
         this.selectedDefenseLevel = level;
-        // 남은 사용 횟수 초기화 (레벨당 추가 +3회 적용 필요 시 로직 추가)
         this.defenseUsesLeft = DEFENSE_SKILLS.stream()
                 .filter(s -> s.getId().equals(id))
                 .findFirst()
@@ -144,9 +194,10 @@ public class HeroCandidateSkillSet {
                 .orElse(-1);
     }
 
-    /**
-     * 방어 스킬 사용 시 호출되어 남은 사용 횟수를 감소시킵니다.
-     */
+    public int getDefenseUsesLeft() {
+        return defenseUsesLeft;
+    }
+
     public void useDefenseSkill() {
         if (defenseUsesLeft > 0) defenseUsesLeft--;
     }
