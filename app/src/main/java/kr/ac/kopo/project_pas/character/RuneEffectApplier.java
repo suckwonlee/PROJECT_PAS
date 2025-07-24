@@ -1,5 +1,6 @@
 package kr.ac.kopo.project_pas.character;
 
+import kr.ac.kopo.project_pas.R;
 import kr.ac.kopo.project_pas.publicdata.PassiveSkill;
 
 public class RuneEffectApplier {

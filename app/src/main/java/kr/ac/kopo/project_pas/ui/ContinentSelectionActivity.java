@@ -48,7 +48,7 @@ public class ContinentSelectionActivity extends BaseActivity {
         btnLeft = findViewById(R.id.arrow_left);
         btnRight = findViewById(R.id.arrow_right);
         btnNext = findViewById(R.id.btn_next_center);
-
+        updateUI();
         btnLeft.setOnClickListener(v -> {
             currentIndex = (currentIndex - 1 + continentNames.length) % continentNames.length;
             updateUI();

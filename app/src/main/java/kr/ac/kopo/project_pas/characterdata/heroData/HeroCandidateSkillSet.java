@@ -52,7 +52,7 @@ public class HeroCandidateSkillSet {
                     int baseDef   = powerPerLevel[0];
                     int growthDef = powerPerLevel[1] - powerPerLevel[0];
                     return String.format(
-                            "방어력 %d만큼 방어합니다. (성장치 %d)",
+                            "방어력의 %d%%만큼 방어합니다. (성장치 %d)",
                             baseDef, growthDef
                     );
                 }
@@ -65,19 +65,19 @@ public class HeroCandidateSkillSet {
                     );
                 }
                 case "HERO_DEF_1":
-                    return String.format("방어력 %d만큼 방어", powerPerLevel[0]);
+                    return String.format("방어력 %d만큼 다음턴의 공격을 방어합니다.", powerPerLevel[0]);
                 case "HERO_DEF_2": {
                     int basePct   = powerPerLevel[0];
                     int growthPct = powerPerLevel[1] - powerPerLevel[0];
                     return String.format(
-                            "공격력의 %d%%만큼의 피해를 입힙니다. (성장치 %d%%)",
+                            "공격력의 %d%%만큼의 다음턴의 공격을 방어합니다. (성장치 %d%%)",
                             basePct, growthPct
                     );
                 }
                 case "HERO_DEF_3": {
                     int plate = powerPerLevel[0];
                     return String.format(
-                            "중갑%d, 의지1, 저지불가1 (사용횟수 %d회)",
+                            "중갑%d, 의지1, 저지불가1 (사용횟수 %d회)(성장치 +3회)",
                             plate, usageLimit
                     );
                 }

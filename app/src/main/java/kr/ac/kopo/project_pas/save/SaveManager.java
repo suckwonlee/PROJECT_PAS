@@ -11,35 +11,65 @@ import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 게임 데이터 저장 및 로드 매니저
+ */
 public class SaveManager {
     private static final String SAVE_FILE_NAME = "save.json";
+    private static SaveManager instance;
+
+    // -------------------- ID 정의 --------------------
+    public static class ID {
+        public static class Character {
+            public static final String HERO      = "hero";
+            public static final String HUNTER    = "hunter";
+            public static final String CLERIC    = "cleric";
+            public static final String WIZARD    = "wizard";
+            public static final String DRUID     = "druid";
+            public static final String ENGINEER = "engineer";
+            public static final String BARD      = "bard";
+            public static final String EXOTIC    = "exotic";
+        }
+    }
+
     private final File saveFile;
     private SaveData saveData;
     private final Gson gson = new Gson();
 
-    public SaveManager(Context context) {
-        saveFile = new File(context.getFilesDir(), SAVE_FILE_NAME);
-        // 버전 업그레이드를 위해 저장 파일 변환
-        SaveConverter.convert(saveFile);
+    private SaveManager(Context context) {
+        this.saveFile = new File(context.getFilesDir(), SAVE_FILE_NAME);
         load();
     }
 
+    public static SaveManager getInstance(Context context) {
+        if (instance == null) {
+            instance = new SaveManager(context);
+        }
+        return instance;
+    }
+
+    /**
+     * 데이터 로드 (파일이 없으면 초기화 후 저장)
+     */
     private void load() {
-        if (!saveFile.exists()) {
+        if (saveFile.exists()) {
+            try (FileReader reader = new FileReader(saveFile)) {
+                Type type = new TypeToken<SaveData>() {}.getType();
+                saveData = gson.fromJson(reader, type);
+            } catch (IOException e) {
+                e.printStackTrace();
+                saveData = new SaveData();
+            }
+        } else {
             saveData = new SaveData();
             save();
-            return;
-        }
-        try (FileReader reader = new FileReader(saveFile)) {
-            Type type = new TypeToken<SaveData>() {}.getType();
-            saveData = gson.fromJson(reader, type);
-        } catch (IOException e) {
-            e.printStackTrace();
-            saveData = new SaveData();
         }
     }
 
-    public void save() {
+    /**
+     * 데이터 저장
+     */
+    private void save() {
         try (FileWriter writer = new FileWriter(saveFile)) {
             gson.toJson(saveData, writer);
         } catch (IOException e) {
@@ -47,27 +77,69 @@ public class SaveManager {
         }
     }
 
-    public boolean isRuneUnlocked(String runeId) {
-        RuneInfo info = saveData.runeInfos.get(runeId);
+    // -------------------- 룬 정보 --------------------
+
+    public boolean isRuneUnlocked(String runeName) {
+        RuneInfo info = saveData.runeInfos.get(runeName);
         return info != null && info.unlocked;
     }
 
-    public int getRuneLevel(String runeId) {
-        RuneInfo info = saveData.runeInfos.get(runeId);
-        return info != null ? info.level : 0;
+    public int getRuneLevel(String runeName) {
+        RuneInfo info = saveData.runeInfos.get(runeName);
+        return (info != null) ? info.level : 0;
     }
 
-    public void unlockRune(String runeId) {
-        RuneInfo info = saveData.runeInfos.computeIfAbsent(runeId, k -> new RuneInfo());
+    public void unlockRune(String runeName) {
+        RuneInfo info = saveData.runeInfos.computeIfAbsent(runeName, k -> new RuneInfo());
         info.unlocked = true;
         save();
     }
 
-    public void setRuneLevel(String runeId, int level) {
-        RuneInfo info = saveData.runeInfos.computeIfAbsent(runeId, k -> new RuneInfo());
+    public void setRuneLevel(String runeName, int level) {
+        RuneInfo info = saveData.runeInfos.computeIfAbsent(runeName, k -> new RuneInfo());
         info.level = level;
         save();
     }
+
+    // -------------------- 선택된 룬 --------------------
+
+    public String getSelectedPassiveRuneName() {
+        return saveData.selectedPassiveRuneName;
+    }
+
+    public void setSelectedPassiveRuneName(String runeName) {
+        saveData.selectedPassiveRuneName = runeName;
+        save();
+    }
+
+    public int getSelectedPassiveRuneLevel() {
+        return saveData.selectedPassiveRuneLevel;
+    }
+
+    public void setSelectedPassiveRuneLevel(int level) {
+        saveData.selectedPassiveRuneLevel = level;
+        save();
+    }
+
+    public String getSelectedStatRuneName() {
+        return saveData.selectedStatRuneName;
+    }
+
+    public void setSelectedStatRuneName(String runeName) {
+        saveData.selectedStatRuneName = runeName;
+        save();
+    }
+
+    public int getSelectedStatRuneLevel() {
+        return saveData.selectedStatRuneLevel;
+    }
+
+    public void setSelectedStatRuneLevel(int level) {
+        saveData.selectedStatRuneLevel = level;
+        save();
+    }
+
+    // -------------------- 캐릭터 언락 --------------------
 
     public boolean isCharacterUnlocked(String characterId) {
         Boolean unlocked = saveData.characterUnlocks.get(characterId);
@@ -79,11 +151,19 @@ public class SaveManager {
         save();
     }
 
+    // SaveData inner class
     private static class SaveData {
         Map<String, RuneInfo> runeInfos = new HashMap<>();
         Map<String, Boolean> characterUnlocks = new HashMap<>();
+
+        // 선택된 룬 저장 필드
+        String selectedPassiveRuneName = "";
+        int selectedPassiveRuneLevel = 0;
+        String selectedStatRuneName = "";
+        int selectedStatRuneLevel = 0;
     }
 
+    // RuneInfo inner class
     private static class RuneInfo {
         boolean unlocked = false;
         int level = 0;
