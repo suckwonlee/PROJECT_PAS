@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class SaveManager {
     private static final String SAVE_FILE_NAME = "save.json";
-    private static SaveManager instance;
+    public static SaveManager instance;
 
     // -------------------- ID 정의 --------------------
     public static class ID {
@@ -36,7 +36,7 @@ public class SaveManager {
     private SaveData saveData;
     private final Gson gson = new Gson();
 
-    private SaveManager(Context context) {
+    public SaveManager(Context context) {
         this.saveFile = new File(context.getFilesDir(), SAVE_FILE_NAME);
         load();
     }
@@ -167,5 +167,25 @@ public class SaveManager {
     private static class RuneInfo {
         boolean unlocked = false;
         int level = 0;
+    }
+
+    public static void setSelectedAttackSkillId(String id) {
+        saveJson.getSelectedSkills().attackSkill = id;
+        write();
+    }
+
+    public static void setSelectedDefenseSkillId(String id) {
+        saveJson.getSelectedSkills().defenseSkill = id;
+        write();
+    }
+
+    public static void setSelectedRune1Name(String name) {
+        saveJson.getSelectedRunes().rune1Name = name;
+        write();
+    }
+
+    public static void setSelectedRune2Name(String name) {
+        saveJson.getSelectedRunes().rune2Name = name;
+        write();
     }
 }

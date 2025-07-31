@@ -1,8 +1,13 @@
 package kr.ac.kopo.project_pas.runedata;
 
+import static kr.ac.kopo.project_pas.characterdata.SkillData.runeMap;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import kr.ac.kopo.project_pas.R;
+import kr.ac.kopo.project_pas.save.SaveManager;
 
 /**
  * 스탯 룬 모델 클래스
@@ -50,5 +55,17 @@ public class RuneStat {
     @Override
     public String toString() {
         return String.format("%s Lv.%d → 스탯: %d", name, level, getTotalValue());
+    }
+
+    public static List<String> getUnlockedRuneNames() {
+        List<String> unlocked = new ArrayList<>();
+        for (Map.Entry<String, Integer> entry : SaveManager.getUnlockedRunes().stat.entrySet()) {
+            unlocked.add(entry.getKey());
+        }
+        return unlocked;
+    }
+
+    public static int getIconResByName(String runeName) {
+        return runeMap.get(runeName).iconRes;
     }
 }
